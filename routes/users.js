@@ -49,4 +49,4 @@ router.get('/users', function(req, res){
   res.send(response)
 })
 
-module.exports = router
+module.exports = router;
