@@ -3,6 +3,7 @@ var User = require('../models/userDB');
 var Book = require('../models/bookDB');
 var express = require('express');
 var router = express.Router();
+var checkToken = require('../auth/checkToken');
 
 
 /* Create a new user */
@@ -29,21 +30,20 @@ router.post('/create/user', function (req, res) {
         res.end();
     }
 
-
 })
 /* Get a profil user */
-.get('/user/:id', function (req, res) {
+.get('/user/:id', checkToken, function (req, res) {
     var id = req.params.id
-    res.json({title: 'one user', message: 'one user', id: id, user: id});
+    res.json({title: 'one user', message: 'one message', id: id, user: id});
 })
-        /* Delete a user */
-        .delete('/user/:id/', function (req, res) {
-            var id = req.params.id;
-        })
-        /* Modify a user */
-        .put('/user/:id', function (req, res) {
-            var id = req.params.id;
-            res.json({});
-        });
+/* Delete a user */
+.delete('/user/:id/', checkToken, function (req, res) {
+    var id = req.params.id;
+})
+/* Modify a user */
+.put('/user/:id', checkToken, function (req, res) {
+    var id = req.params.id;
+    res.json({});
+});
 
 module.exports = router;
