@@ -1,0 +1,20 @@
+{
+  "name": "books",
+  "version": "0.1.0",
+  "description": "Ma bibliothèque en ligne",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mambo",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.3.3",
+    "express": "^4.14.0",
+    "fs-extra": "^1.0.0",
+    "mongodb": "^2.2.12",
+    "morgan": "^1.7.0"
+  }
+}
