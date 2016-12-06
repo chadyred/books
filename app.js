@@ -1,3 +1,4 @@
+
 var express = require('express'),
         bodyParser = require('body-parser'),
         index = require('./routes/index'),
@@ -6,6 +7,7 @@ var express = require('express'),
         users = require('./routes/users2'),
         config = require('./config'),
         auth = require('./auth/auth');
+
 
 var app = express();
 app.set('config', config);
@@ -22,3 +24,4 @@ app.use(bodyParser.json())
     .listen('3200');
 
 module.exports = app;
+
