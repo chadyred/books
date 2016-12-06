@@ -1,3 +1,4 @@
+
 var express = require('express'),
         bodyParser = require('body-parser'),
         index = require('./routes/index'),
@@ -14,4 +15,9 @@ var app = express()
         .use('/', users)
         .use('/', books)
         .use('/', userbooks)
-        .listen('3200');
+        .listen('3200')
+        ;
+
+
+
+module.exports = app;
