@@ -4,7 +4,7 @@
   "description": "Ma bibliothèque en ligne",
   "main": "app.js",
   "scripts": {
-    "start": "node bin\/www"
+    "start": "node bin/www"
   },
   "author": "mambo",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "cookie-parser": "^1.4.3",
     "debug": "^2.3.3",
     "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
     "fs-extra": "^1.0.0",
     "mongodb": "^2.2.12",
     "morgan": "^1.7.0"

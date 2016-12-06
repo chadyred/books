@@ -5,8 +5,7 @@ var express = require('express'),
         books = require('./routes/books'),
         userbooks = require('./routes/userbooks'),
         users = require('./routes/users2'),
-        config = require('./config'),
-        auth = require('./auth/auth');
+        config = require('./config');
 
 
 var app = express();
@@ -20,7 +19,6 @@ app.use(bodyParser.json())
     .use('/', users)
     .use('/', books)
     .use('/', userbooks)
-    .use('/', auth)
     .listen('3200');
 
 module.exports = app;

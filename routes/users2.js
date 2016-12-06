@@ -3,8 +3,49 @@ var User = require('../models/userDB');
 var Book = require('../models/bookDB');
 var express = require('express');
 var router = express.Router();
+var jwt = require('jsonwebtoken');
 var checkToken = require('../auth/checkToken');
 
+// route to login a user (POST http://localhost:8080/api/login)
+router.post('/login', function (req, res, next) {
+    
+    var pseudo = req.body.pseudo;
+    var password = req.body.password;
+
+    User.findOne({
+        pseudo: req.body.pseudo
+    }, function (err, user) {
+
+        if (err)
+            throw err;
+
+        if (pseudo !== user.pseudo) {
+            res.json({success: false, message: 'Authentication failed. User not found.,', user: user.pseudo, pseudo: req.body});
+        } else {
+
+            // check if password matches
+            if (password !== user.password) {
+                res.json({success: false, message: 'Authentication failed. Wrong password.'});
+            } else {
+
+                // if user is found and password is right
+                // create a token
+                var token = jwt.sign(user, req.app.get('config').secret, {
+                    expiresIn: 600 // expires in 24 hours
+                });
+
+                // return the information including token as JSON
+                res.json({
+                    success: true,
+                    message: 'Enjoy a meal (token)!',
+                    token: token
+                });
+            }
+
+        }
+
+    });
+});
 
 /* Create a new user */
 router.post('/create/user', function (req, res) {
@@ -33,7 +74,7 @@ router.post('/create/user', function (req, res) {
 })
 /* Get a profil user */
 .get('/user/:id', checkToken, function (req, res) {
-    var id = req.params.id
+    var id = req.params.id;
     res.json({title: 'one user', message: 'one message', id: id, user: id});
 })
 /* Delete a user */

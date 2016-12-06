@@ -4,8 +4,12 @@ var Schema = mongoose.Schema;
 
 // Create a schema
 var userSchema = new Schema({
+    name: String,
     pseudo: {type: String, required: true, unique: true},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    unread: [{}],
+    read: [{}]
+
   
 });
 
