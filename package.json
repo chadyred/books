@@ -4,11 +4,7 @@
   "description": "Ma bibliothèque en ligne",
   "main": "app.js",
   "scripts": {
-<<<<<<< HEAD
-    "test": "echo \"Error: no test specified\" && exit 1"
-=======
-    "start": "node ./bin/www"
->>>>>>> 84c8f09e76ac4721a3aab5b17206b4942e37ec04
+    "start": "node bin\/www"
   },
   "author": "mambo",
   "license": "ISC",
