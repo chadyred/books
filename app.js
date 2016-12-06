@@ -4,7 +4,8 @@ var express = require('express'),
         books = require('./routes/books'),
         userbooks = require('./routes/userbooks'),
         users = require('./routes/users2'),
-        config = require('./config');
+        config = require('./config'),
+        auth = require('./auth/auth');
 
 var app = express();
 app.set('config', config);
