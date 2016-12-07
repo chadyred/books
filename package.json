@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "amazon-product-api": "^0.4.2",
+    "apac": "^2.0.2",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "debug": "^2.3.3",
