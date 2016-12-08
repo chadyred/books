@@ -1,12 +1,10 @@
-
 var express = require('express'),
         bodyParser = require('body-parser'),
         index = require('./routes/index'),
         books = require('./routes/books'),
         userbooks = require('./routes/userbooks'),
-        users = require('./routes/users2'),
-        config = require('./config');
-
+        users = require('./routes/users'),
+        config = require('./private/config');
 
 var app = express();
 app.set('config', config);

@@ -1,5 +1,16 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/books');
+var mongoose = require('../private/configDB');
+var db = mongoose.connection;
+
+db.on('error', function(error){
+   console.log('**** WARNING ! Impossible de se connecter à la base ! ****') ;
+   console.log(error);
+});
+
+db.on('open', function(){
+   console.log('Connexion à la base réussie !') ;
+   
+});
+
 var Schema = mongoose.Schema;
 
 // Create a schema
@@ -7,6 +18,7 @@ var userSchema = new Schema({
     name: String,
     pseudo: {type: String, required: true, unique: true},
     password: {type: String, required: true},
+    have: [{}],
     unread: [{}],
     read: [{}]
 
