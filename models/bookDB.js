@@ -1,3 +1,4 @@
+/* Please configure /private/configDB */
 var mongoose = require('../private/configDB');
 var db = mongoose.connection;
 
@@ -7,19 +8,19 @@ db.on('error', function(error){
 });
 
 db.on('open', function(){
-   console.log('Connexion à la base réussie !') ;
-   
+   console.log('Connexion à la base réussie !') ;   
 });
 
 var Schema = mongoose.Schema;
 
 // Create a schema for book
 var bookSchema = new Schema({
-    title: {type: String, required: true, unique: false},
-    ean: {type: String, required: true, unique: true},
-    asin: {type: String, required: false, unique: false},
+    title: {type: String, required: true,  unique: false},
+    ean:   {type: String, required: true,  unique: true},
+    asin:  {type: String, required: false, unique: false},
     detailPageURL: {type: String, required: false, unique: false},
-    content: {type: String, required: false, unique: false},
+    thumbEmailUrl: {type: String, required: false, unique: false},
+    bigEmailUrl: {type: String, required: false, unique: false},
     created_at: Date,
     updated_at: Date
 });

@@ -9,7 +9,6 @@
   "author": "mambo",
   "license": "ISC",
   "dependencies": {
-    "amazon-product-api": "^0.4.2",
     "apac": "^2.0.2",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
@@ -20,6 +19,7 @@
     "mongodb": "^2.2.12",
     "mongoose": "^4.7.2",
     "morgan": "^1.7.0",
+    "underscore": "^1.8.3",
     "xml2js": "^0.4.17"
   }
 }

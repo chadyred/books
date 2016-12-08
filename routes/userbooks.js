@@ -4,6 +4,7 @@ var User = require('../models/userDB');
 var Book = require('../models/bookDB');
 var checkToken = require('../auth/checkToken');
 var checkEAN = require('../services/checkEAN');
+var _ = require('underscore');
 
 /* Add a book to an user */
 router.post('/user/book', checkToken, function (req, res) {
@@ -23,83 +24,93 @@ router.post('/user/book', checkToken, function (req, res) {
         if (!user) {
             res.status(401).json({success: false, message: 'Authentication failed. User not found !'});
         } else {
-            console.log(user.have);
             var haveUser = user.have;
             var unreadUser = user.unread;
             var readUser = user.read;
 
-            for (var i = 0; i < haveUser.length; i++) {
-                eanHaveUser = haveUser[i].ean;
-                console.log("info : " + haveUser[i].ean + ' : ' + haveUser[i].title);
-                //Si ean existe et si user l'a supprimé
-                if((eanHaveUser == eanForm) && (haveForm == 0)){
-                    console.log('remove : '+ i + ' : ' + eanHaveUser );
-                    //remove item i
-                    
-                }
-                    
-                
-                
+            var msgHave = '';
+            var msgUnread = '';
+            var msgRead = '';
 
+            console.log("0haveUser : " + JSON.stringify(haveUser));
+
+            // Si on veut supprimer l'item de la collection have
+            if (haveForm == 0) {
+                haveUser = _.without(haveUser, _.findWhere(haveUser, {ean: eanForm}));
+                console.log('Suppression du livre code ean : ' + eanForm);
+            } else { // On veut ajouter un livre
+                // On vérifie s'il n'est pas présent
+                if (_.isUndefined(_.findWhere(haveUser, {ean: eanForm}))) {
+                    var newObj = new Object();
+                    newObj.ean = eanForm;
+                    haveUser.push(newObj);
+                    console.log("1haveUser : " + JSON.stringify(haveUser));
+                    console.log("Ajout du livre.");
+
+                } else {
+                    console.log("Livre déjà présent chez user");
+                }
+            }
+            console.log("2haveUser : " + JSON.stringify(haveUser));
+
+            // Si on veut supprimer l'item de la collection unread
+            // Si on unread est égal à 1, donc read est égal à 0
+            // Si on veut supprimer l'item
+            if(unreadForm == 0){
+                unreadUser = _.without(unreadUser, _.findWhere(unreadUser, {ean: eanForm}));
+                console.log('Suppression du livre code ean dans unread : ' + eanForm);
+                
+                // On vérifie s'il n'est pas présent
+                if (_.isUndefined(_.findWhere(readUser, {ean: eanForm}))) {
+                    var newObj = new Object();
+                    newObj.ean = eanForm;
+                    readUser.push(newObj);
+                    console.log("1readUser : " + JSON.stringify(readUser));
+                    console.log("Ajout du livre dans read.");
+
+                } else {
+                    console.log("Livre déjà présent dans unread");
+                }
+                
+            }else{
+                // Si unreadForm == 1 alors on doit supprimer le livre de read
+                readUser = _.without(readUser, _.findWhere(readUser, {ean: eanForm}));
+                console.log('Suppression du livre code ean dans read : ' + eanForm);
+                
+                // On vérifie s'il n'est pas présent
+                if (_.isUndefined(_.findWhere(unreadUser, {ean: eanForm}))) {
+                    var newObj = new Object();
+                    newObj.ean = eanForm;
+                    unreadUser.push(newObj);
+                    console.log("1unreadUser : " + JSON.stringify(unreadUser));
+                    console.log("Ajout du livre dans unread.");
+
+                } else {
+                    console.log("Livre déjà présent dans unread");
+                }
             }
 
-            console.log("haveUser : " + JSON.stringify(haveUser));
+
+
+            // On stock la nouvelle collection de livre
+            user.have = haveUser;
+            user.read = readUser;
+            user.unread = unreadUser;
+            user.save(function (err, updated) {
+                if (err)
+                    return handleError(err);
+                
+                console.log("update : " + updated);
+                
+                res.json({success: true, msg: "Mise à jour de votre bibliothèque."});
+            });
 
         }
 
     });
     /* Fin user */
-
-
-
-
-    // S'il faut vérifier si l'ean existe dans chaque dépôt (have, read, unread)
-    // S'il n'existe pas AND si on veut l'ajouter
-    /*
-     var status = new Object();
-     if ((typeof haveForm !== 'undefined') && (haveForm  === '1')) {
-     status.have = eanForm;
-     }
-     if ((typeof unreadForm !== 'undefined') && (unreadForm === '1')) {
-     status.unread = eanForm;
-     } else {
-     status.read = eanForm;
-     }
-     status.createdAt = Date.now();
-     
-     console.log(status);
-     
-     // Récupérer l'user en cours
-     // Récupérer ses infos (have, unread, read)
-     // Ajouter les nouvelles infos passées dans le form (have,unread, read)
-     // Mettre à jour l'user
-     
-     /*User.findOne({
-     pseudo: pseudo
-     }, function (err, user) {
-     
-     if (!user) {
-     res.status(401).json({success: false, message: 'Authentication failed. User not found !'});
-     } else {
-     
-     var book = {
-     ean: '9782212132000',
-     title: 'test2',
-     date: Date.now()
-     };
-     
-     user.have = book;
-     user.save(function (err) {
-     if (err) {
-     console.error('ERROR!');
-     }
-     });
-     }
-     });*/
-
-    //res.json({pseudo: pseudo, ean: eanForm, have: have, unread: unread, read: read});
-    res.json({ok: 'ok'});
-    res.end();
+   
+   
 })
         /* Display a list of books to an user */
         .get('/user/:iduser/books', function (req, res) {

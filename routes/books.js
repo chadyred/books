@@ -8,7 +8,7 @@ var parseString = require('xml2js').parseString;
 var Book = require('../models/bookDB');
 
 /* Route get ean book */
-router.get('/book/ean/:ean', checkEAN, checkToken, function (req, res) {
+router.get('/book/ean/:ean', checkToken, checkEAN, function (req, res) {
     var ean = req.ean;
     console.log(ean);
 
@@ -45,7 +45,7 @@ router.get('/book/ean/:ean', checkEAN, checkToken, function (req, res) {
                 parseString(xml, function (err, result) {
                                        
                     var content = JSON.stringify(result);
-                    console.log(content);
+                    //console.log(content);
                     var tempItem = JSON.parse(content);
                     var Item = tempItem.ItemLookupResponse.Items[0].Item[0];
                     console.log("item : " + JSON.stringify(Item));
@@ -96,13 +96,17 @@ router.get('/book/ean/:ean', checkEAN, checkToken, function (req, res) {
 
         } else {
            
-            var Title = item.title;
-            var Content = item.content;
+            var title = item.title;
+            var ean = item.ean;
+            var asin = item.asin;
+            var detailpageurl = item.detailPageURL;
            
             res.status(200).json({
                 success: true,
-                title: Title,
-                content: Content
+                title: title,
+                ean: ean,
+                asin: asin,
+                detailpageurl: detailpageurl
                 
             });
             res.end();
