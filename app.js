@@ -4,9 +4,13 @@ var express = require('express'),
         books = require('./routes/books'),
         userbooks = require('./routes/userbooks'),
         users = require('./routes/users'),
+        cors = require('cors'),
         config = require('./private/config');
 
+var corsOptions = { origin : "http://localhost:8100" };
+
 var app = express();
+app.use(cors(corsOptions));
 app.set('config', config);
 
 app.use(bodyParser.json())
