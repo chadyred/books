@@ -1,3 +1,4 @@
+/* Please configure /private/configDB */
 var mongoose = require('../private/configDB');
 var db = mongoose.connection;
 
@@ -20,9 +21,9 @@ var userSchema = new Schema({
     password: {type: String, required: true},
     have: [{}],
     unread: [{}],
-    read: [{}]
-
-  
+    read: [{}],
+    created_at: Date,
+    updated_at: Date  
 });
 
 // Create a model using userSchema

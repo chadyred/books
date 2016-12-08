@@ -48,7 +48,7 @@ router.post('/login', checkForm, function (req, res, next) {
 })
 
         /* Create a new user */
-        .post('/create/user', checkForm, function (req, res) {
+        .post('/user/create', checkForm, function (req, res) {
             if (req.body.pseudo && req.body.password && req.body.pseudo.length > 2 && req.body.password.length > 5) {
                 var pseudo = req.body.pseudo;
                 var password = req.body.password;
